@@ -78,7 +78,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
     <div className="w-64 bg-gray-50 border-r border-gray-200 p-6 space-y-6">
       {/* Library Title */}
       <div className="text-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">My Library</h1>
+        <div className="mb-6">
+          <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg">
+            <span className="text-2xl">📚</span>
+          </div>
+          <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            My Library
+          </h1>
+          <div className="w-12 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto mt-2 rounded-full"></div>
+        </div>
       </div>
 
       {/* Upload Image Section */}

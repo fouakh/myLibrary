@@ -6,18 +6,19 @@ interface HeaderProps {
   onSearchChange: (query: string) => void;
   onAddBook: () => void;
   bookCount: number;
+  isLocked: boolean;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   searchQuery,
   onSearchChange,
   onAddBook,
-  bookCount
+  bookCount,
+  isLocked
 }) => {
   return (
     <div className="flex items-center justify-between mb-8">
       <div>
-        <h1 className="text-2xl font-semibold text-gray-900 mb-1">All Books</h1>
         <p className="text-sm text-gray-500">{bookCount} books</p>
       </div>
       
@@ -35,7 +36,12 @@ export const Header: React.FC<HeaderProps> = ({
         
         <button
           onClick={onAddBook}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
+          disabled={isLocked}
+          className={`px-4 py-2 rounded-lg flex items-center gap-2 transition-colors ${
+            isLocked 
+              ? 'bg-gray-300 text-gray-500 cursor-not-allowed' 
+              : 'bg-blue-600 hover:bg-blue-700 text-white'
+          }`}
         >
           <Plus className="w-4 h-4" />
           Add Book

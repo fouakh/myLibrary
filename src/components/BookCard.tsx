@@ -31,7 +31,7 @@ export const BookCard: React.FC<BookCardProps> = ({ book, isLocked, onEdit, onDe
   return (
     <div
       onClick={handleClick}
-      className="bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-all duration-200 cursor-pointer group overflow-hidden relative"
+      className="bg-white rounded-md shadow-sm border border-gray-200 hover:shadow-md transition-all duration-200 cursor-pointer group overflow-hidden relative"
     >
       {/* Edit/Delete buttons when unlocked */}
       {!isLocked && (
@@ -51,7 +51,7 @@ export const BookCard: React.FC<BookCardProps> = ({ book, isLocked, onEdit, onDe
         </div>
       )}
 
-      <div className="aspect-[3/4] relative overflow-hidden bg-gray-100">
+      <div className="aspect-[2/3] relative overflow-hidden bg-gray-100">
         {book.coverImage ? (
           <img
             src={book.coverImage}
@@ -61,8 +61,8 @@ export const BookCard: React.FC<BookCardProps> = ({ book, isLocked, onEdit, onDe
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-50 to-blue-100">
             <div className="text-center">
-              <div className="w-16 h-20 bg-blue-200 rounded mx-auto mb-2 flex items-center justify-center">
-                <span className="text-blue-600 text-2xl">📚</span>
+              <div className="w-12 h-16 bg-blue-200 rounded mx-auto mb-1 flex items-center justify-center">
+                <span className="text-blue-600 text-xl">📚</span>
               </div>
               <p className="text-xs text-blue-600">No Cover</p>
             </div>
@@ -78,17 +78,17 @@ export const BookCard: React.FC<BookCardProps> = ({ book, isLocked, onEdit, onDe
         )}
       </div>
       
-      <div className="p-4">
+      <div className="p-3">
         <h3 className="font-semibold text-gray-900 text-sm line-clamp-2 mb-1">
           {book.title}
         </h3>
-        <p className="text-gray-600 text-xs mb-3">
+        <p className="text-gray-600 text-xs mb-2">
           {book.author}
         </p>
         
         {book.tags.length > 0 && (
           <div className="flex flex-wrap gap-1">
-            {book.tags.slice(0, 3).map((tag) => (
+            {book.tags.slice(0, 2).map((tag) => (
               <span
                 key={tag}
                 className="inline-block bg-blue-50 text-blue-700 text-xs px-2 py-1 rounded-md"
@@ -96,9 +96,9 @@ export const BookCard: React.FC<BookCardProps> = ({ book, isLocked, onEdit, onDe
                 {tag}
               </span>
             ))}
-            {book.tags.length > 3 && (
+            {book.tags.length > 2 && (
               <span className="text-xs text-gray-500">
-                +{book.tags.length - 3} more
+                +{book.tags.length - 2}
               </span>
             )}
           </div>
