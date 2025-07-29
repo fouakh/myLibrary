@@ -159,7 +159,12 @@ function App() {
             </p>
             <button
               onClick={() => setIsModalOpen(true)}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg flex items-center gap-2 transition-colors"
+              disabled={isLocked}
+              className={`px-6 py-3 rounded-lg flex items-center gap-2 transition-colors ${
+                isLocked 
+                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed' 
+                  : 'bg-blue-600 hover:bg-blue-700 text-white'
+              }`}
             >
               <span className="text-lg">+</span>
               Create Your First Book
