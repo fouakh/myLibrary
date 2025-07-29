@@ -1,13 +1,11 @@
-import React, { useRef, useState } from 'react';
-import { Upload, Download, Lock, Unlock, FileImage, Filter, SortAsc, X } from 'lucide-react';
+import React, { useRef } from 'react';
+import { Upload, Download, Lock, Unlock, Filter, SortAsc } from 'lucide-react';
 import { Book } from '../types/Book';
 import { exportBooksToJSON, importBooksFromJSON } from '../utils/storage';
 
 interface SidebarProps {
   books: Book[];
   onImportBooks: (books: Book[]) => void;
-  onImageUpload: (imageData: string) => void;
-  uploadedImage: string | null;
   selectedTags: string[];
   onTagsChange: (tags: string[]) => void;
   sortBy: 'title' | 'createdAt';
@@ -19,8 +17,6 @@ interface SidebarProps {
 export const Sidebar: React.FC<SidebarProps> = ({
   books,
   onImportBooks,
-  onImageUpload,
-  uploadedImage,
   selectedTags,
   onTagsChange,
   sortBy,
@@ -29,39 +25,22 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onLockToggle
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const imageInputRef = useRef<HTMLInputElement>(null);
-  
+
   const allTags = Array.from(new Set(books.flatMap(book => book.tags))).sort();
-  
+
   const handleExport = () => {
-    exportBooksToJSON(books, uploadedImage);
+    exportBooksToJSON(books, null); // No uploadedImage
   };
-  
+
   const handleImport = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       try {
-        const { books: importedBooks, uploadedImage: importedImage } = await importBooksFromJSON(file);
+        const { books: importedBooks } = await importBooksFromJSON(file);
         onImportBooks(importedBooks);
-        if (importedImage) {
-          onImageUpload(importedImage);
-        }
       } catch (error) {
         alert('Error importing books. Please check the file format.');
       }
-    }
-    event.target.value = '';
-  };
-  
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const imageData = e.target?.result as string;
-        onImageUpload(imageData);
-      };
-      reader.readAsDataURL(file);
     }
     event.target.value = '';
   };
@@ -73,7 +52,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       onTagsChange([...selectedTags, tag]);
     }
   };
-  
+
   return (
     <div className="w-64 bg-gray-50 border-r border-gray-200 p-6 space-y-6">
       {/* Library Title */}
@@ -89,36 +68,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
       </div>
 
-      {/* Upload Image Section */}
-      <div 
-        onClick={() => imageInputRef.current?.click()}
-        className="bg-blue-50 border-2 border-dashed border-blue-200 rounded-lg p-6 text-center cursor-pointer hover:bg-blue-100 transition-colors"
-      >
-        {uploadedImage ? (
-          <div className="relative">
-            <img 
-              src={uploadedImage} 
-              alt="Uploaded" 
-              className="w-full h-24 object-cover rounded-lg mb-2"
-            />
-            <p className="text-sm text-blue-600 font-medium">Change Image</p>
-          </div>
-        ) : (
-          <>
-            <FileImage className="w-8 h-8 text-blue-400 mx-auto mb-2" />
-            <p className="text-sm text-blue-600 font-medium">Upload Image</p>
-          </>
-        )}
-      </div>
-      
-      <input
-        ref={imageInputRef}
-        type="file"
-        accept="image/*"
-        onChange={handleImageUpload}
-        className="hidden"
-      />
-      
       {/* Lock Status */}
       <div className={`p-4 rounded-lg ${isLocked ? 'bg-red-50 border border-red-200' : 'bg-green-50 border border-green-200'}`}>
         <button
@@ -140,7 +89,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           {isLocked ? 'Modifications blocked' : 'Modifications allowed'}
         </p>
       </div>
-      
+
       {/* Backup & Restore */}
       <div>
         <h3 className="text-sm font-medium text-gray-700 mb-3">Backup & Restore</h3>
@@ -152,7 +101,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <Download className="w-4 h-4" />
             Export JSON
           </button>
-          
+
           <button
             onClick={() => fileInputRef.current?.click()}
             className="w-full flex items-center gap-2 px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm"
@@ -160,7 +109,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <Upload className="w-4 h-4" />
             Import JSON
           </button>
-          
+
           <input
             ref={fileInputRef}
             type="file"
@@ -173,7 +122,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           Export your books to backup or import from a previous backup
         </p>
       </div>
-      
+
       {/* Sort Options */}
       <div>
         <div className="flex items-center gap-2 mb-3">
@@ -203,7 +152,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           </button>
         </div>
       </div>
-      
+
       {/* Filter by Tag */}
       {allTags.length > 0 && (
         <div>
@@ -216,7 +165,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               </span>
             )}
           </div>
-          
+
           <div className="flex flex-wrap gap-2 max-h-40 overflow-y-auto">
             {allTags.map(tag => (
               <button
