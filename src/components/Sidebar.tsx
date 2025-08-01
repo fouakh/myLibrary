@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Upload, Download, Lock, Unlock, Filter, SortAsc } from 'lucide-react';
+import { Upload, Download, Lock, Unlock, Filter, SortAsc, Archive } from 'lucide-react';
 import { Book } from '../types/Book';
 import { exportBooksToJSON, importBooksFromJSON } from '../utils/storage';
 
@@ -92,7 +92,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
       {/* Backup & Restore */}
       <div>
-        <h3 className="text-sm font-medium text-gray-700 mb-3">Backup & Restore</h3>
+        <div className="flex items-center gap-2 mb-3">
+          <Archive className="w-4 h-4 text-gray-500" />
+          <h3 className="text-sm font-medium text-gray-700">Backup & Restore</h3>
+        </div>
         <div className="space-y-2">
           <button
             onClick={handleExport}
@@ -167,6 +170,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           </div>
 
           <div className="flex flex-wrap gap-2 max-h-40 overflow-y-auto">
+          <div className="flex flex-wrap gap-2 max-h-60 overflow-y-auto">
             {allTags.map(tag => (
               <button
                 key={tag}
