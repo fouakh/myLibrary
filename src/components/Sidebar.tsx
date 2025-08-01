@@ -169,7 +169,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
             )}
           </div>
 
-          <div className="flex flex-wrap gap-2 max-h-40 overflow-y-auto">
           <div className="flex flex-wrap gap-2 max-h-60 overflow-y-auto">
             {allTags.map(tag => (
               <button
