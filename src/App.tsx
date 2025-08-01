@@ -32,7 +32,7 @@ function App() {
     // Apply tag filter
     if (selectedTags.length > 0) {
       filtered = filtered.filter((book) =>
-        selectedTags.some((tag) => book.tags.includes(tag))
+        selectedTags.every((tag) => book.tags.includes(tag))
       );
     }
 
@@ -145,7 +145,7 @@ function App() {
         />
 
         {/* Books Grid */}
-        {filteredAndSortedBooks.length === 0 ? (
+        {books.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-16">
             <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
               <span className="text-4xl">📚</span>
@@ -169,6 +169,41 @@ function App() {
               <span className="text-lg">+</span>
               Create Your First Book
             </button>
+          </div>
+        ) : filteredAndSortedBooks.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-16">
+            <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+              <span className="text-4xl">🔍</span>
+            </div>
+            <h3 className="text-xl font-medium text-gray-900 mb-2">
+              No Books Found
+            </h3>
+            <p className="text-gray-600 text-center mb-6 max-w-md">
+              No books match your current search criteria. Try adjusting your search terms or selected tags.
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => {
+                  setSearchQuery('');
+                  setSelectedTags([]);
+                }}
+                className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+              >
+                Clear Filters
+              </button>
+              <button
+                onClick={() => setIsModalOpen(true)}
+                disabled={isLocked}
+                className={`px-4 py-2 rounded-lg flex items-center gap-2 transition-colors ${
+                  isLocked 
+                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed' 
+                    : 'bg-blue-600 hover:bg-blue-700 text-white'
+                }`}
+              >
+                <span className="text-lg">+</span>
+                Add Book
+              </button>
+            </div>
           </div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-4">
