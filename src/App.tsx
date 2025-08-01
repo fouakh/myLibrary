@@ -157,18 +157,15 @@ function App() {
               Get started by creating your first book. You can organize your
               reading collection, add notes, and keep track of your favorite books all in one place.
             </p>
-            <button
-              onClick={() => setIsModalOpen(true)}
-              disabled={isLocked}
-              className={`px-6 py-3 rounded-lg flex items-center gap-2 transition-colors ${
-                isLocked 
-                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed' 
-                  : 'bg-blue-600 hover:bg-blue-700 text-white'
-              }`}
-            >
-              <span className="text-lg">+</span>
-              Create Your First Book
-            </button>
+            {!isLocked && (
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center gap-2 transition-colors"
+              >
+                <span className="text-lg">+</span>
+                Create Your First Book
+              </button>
+            )}
           </div>
         ) : filteredAndSortedBooks.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-16">
@@ -191,18 +188,15 @@ function App() {
               >
                 Clear Filters
               </button>
-              <button
-                onClick={() => setIsModalOpen(true)}
-                disabled={isLocked}
-                className={`px-4 py-2 rounded-lg flex items-center gap-2 transition-colors ${
-                  isLocked 
-                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed' 
-                    : 'bg-blue-600 hover:bg-blue-700 text-white'
-                }`}
-              >
-                <span className="text-lg">+</span>
-                Add Book
-              </button>
+              {!isLocked && (
+                <button
+                  onClick={() => setIsModalOpen(true)}
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center gap-2 transition-colors"
+                >
+                  <span className="text-lg">+</span>
+                  Add Book
+                </button>
+              )}
             </div>
           </div>
         ) : (
